@@ -3,7 +3,11 @@ import { createClient } from '@supabase/supabase-js'
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
 const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
 
-export const supabase = createClient(supabaseUrl, supabaseKey)
+// All tables live in the `google_reviews` schema of the shared project,
+// so every .from('...') call resolves there instead of `public`.
+export const supabase = createClient(supabaseUrl, supabaseKey, {
+  db: { schema: 'google_reviews' },
+})
 
 export type Database = {
   users: {
